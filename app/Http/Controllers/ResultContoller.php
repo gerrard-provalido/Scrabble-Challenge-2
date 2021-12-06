@@ -3,82 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\PIResult;
 
 class ResultContoller extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function addResultForm()
     {
-        //
+        return view('result/add-result-form');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function addResult(Request $request)
     {
-        //
-    }
+        $this->validate($request,
+        [
+            'winner' => 'required|numeric',
+            'wScore' => 'required|numeric|max:9999',
+            'looser' => 'required|numeric',
+            'lScore' => 'required|numeric|max:9999',
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $winnerResult = new PlResult();
+        $lastMatchId = $winnerResult->getLastMatchId();
+        $looserResult = new PlResult();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        $lastMatchId = $lastMatchId[0]->result_match_id;
+        $matchId = $lastMatchId+1;
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $winnerResult->result_member_id = $request->winner;
+        $winnerResult->result_score = $request->wScore;
+        $winnerResult->result_match_status = 1;
+        $winnerResult->result_match_id = $matchId;
+        $winnerResult->save();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        $looserResult->result_member_id = $request->looser;
+        $looserResult->result_score = $request->lScore;
+        $looserResult->result_match_status = 2;
+        $looserResult->result_match_id = $matchId;
+        $looserResult->save();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return redirect('all');
     }
 }

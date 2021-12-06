@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\ResultController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,14 +19,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('all', 'MemberController@index');
-Route::get('getTopTen', 'MemberController@getTopTen');
-Route::get('details/{memberId}', 'MemberController@details');
-Route::get('addMemberForm', 'MemberController@addForm');
-Route::post('addMember', 'MemberController@addMember');
-Route::post('removeMember', 'MemberController@removeMember');
-Route::get('updateMemberForm/{memberId}', 'MemberController@updateForm');
-Route::post('updateMember/{memberId}', 'MemberController@updateMember');
+Route::get('all', [MemberController::class, 'index']);
+Route::get('getTopTen', [MemberController::class, 'getTopTen']);
+Route::get('details/{memberId}', [MemberController::class, 'details']);
+Route::get('addMemberForm', [MemberController::class, 'addForm']);
+Route::post('addMember', [MemberController::class, 'addMember']);
+Route::post('removeMember', [MemberController::class, 'removeMember']);
+Route::get('updateMemberForm/{memberId}', [MemberController::class, 'updateForm']);
+Route::post('updateMember/{memberId}', [MemberController::class, 'updateMember']);
 
-Route::get('addResultForm', 'ResultController@addResultForm');
-Route::post('addResult', 'ResultController@addResult');
+Route::get('leader-list', [ResultController::class, 'index']);
+Route::get('addResultForm', [ResultController::class, 'addResultForm']);
+Route::post('addResult', [ResultController::class, 'addResult']);

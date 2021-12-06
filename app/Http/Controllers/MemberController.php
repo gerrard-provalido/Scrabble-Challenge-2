@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\PIMember;
 use App\Models\PIResult;
 
-class MemberContoller extends Controller
+class MemberController extends Controller
 {
 	/**
 	 * Display a listing of the resource.

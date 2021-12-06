@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\PIMember;
 use App\Models\PIResult;
 
-class ResultContoller extends Controller
+class ResultController extends Controller
 {
+	public function index()
+	{
+		$members = PIMember::all();
+		return view('result/leader-list', ['members' => $members]);
+	}
 	public function addResultForm()
 	{
 		return view('result/add-result-form');
